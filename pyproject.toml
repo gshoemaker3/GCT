@@ -1,0 +1,16 @@
+[project]
+name = "cli_tool"
+version = "0.1.0"
+description = "A cli tool for ShieldAI"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+author = [{name = "Garrett Shoemaker", email = "garrett.shoemaker3@gmail.com}]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black"
+]
+[project.scripts]
+tool = "cli_tool.main:main"
