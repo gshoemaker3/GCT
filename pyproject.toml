@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cli_tool"
 version = "0.1.0"
@@ -5,12 +9,24 @@ description = "A cli tool for ShieldAI"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = []
-author = [{name = "Garrett Shoemaker", email = "garrett.shoemaker3@gmail.com}]
+authors = [
+    {name = "Garrett Shoemaker", email = "garrett.shoemaker3@gmail.com"}
+    ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest",
+    "pytest>=8.3.5",
     "black"
 ]
 [project.scripts]
 tool = "cli_tool.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra -q"
