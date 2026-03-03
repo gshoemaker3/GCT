@@ -2,8 +2,8 @@ import os
 import shutil
 from pathlib import Path
 
-from cli_tool.lib import ui
-from cli_tool.lib.utils import ERROR, WARNING, SUCCESS
+from gct.lib import ui
+from gct.lib.utils import ERROR, WARNING, SUCCESS
 
 
 def copy_files_usage() -> None:

@@ -1,6 +1,6 @@
 import pytest
 
-from cli_tool.lib import display, has_non_string
+from gct.lib import display, has_non_string
 
 def test_display_1(capsys):
     display(["one", "two", "three"])

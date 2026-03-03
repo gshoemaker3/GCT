@@ -3,9 +3,9 @@ import sys
 import os
 from pathlib import Path
 
-from cli_tool.lib import menu
-from cli_tool.lib import files
-from cli_tool.lib.utils import ERROR, GREEN, END, WARNING
+from gct.lib import menu
+from gct.lib import files
+from gct.lib.utils import ERROR, GREEN, END, WARNING
 
 
 def get_menu_input(options: list[str]) -> int:
