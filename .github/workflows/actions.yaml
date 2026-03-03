@@ -63,7 +63,7 @@ jobs:
         run: pip install safety
       
       - name: Run Scan
-        run: safety check
+        run: scan
 
   unit-tests:
     needs: security-scan

@@ -23,7 +23,9 @@ tool = "cli_tool.main:main"
 
 [dependency-groups]
 dev = [
+    "bandit>=1.7.10",
     "pytest>=8.3.5",
+    "safety>=3.6.2",
 ]
 
 [tool.pytest.ini_options]
