@@ -1,4 +1,4 @@
-from cli_tool.lib import ui
+from gct.lib import ui
 
 def test_get_input_1(monkeypatch):
     """Testing that a valid user input works."""

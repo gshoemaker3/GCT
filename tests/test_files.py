@@ -1,6 +1,6 @@
 import pytest
-from cli_tool.lib import files
-from cli_tool.lib.utils import ERROR, SUCCESS
+from gct.lib import files
+from gct.lib.utils import ERROR, SUCCESS
 
 
 @pytest.fixture
