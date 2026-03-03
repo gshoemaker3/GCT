@@ -27,7 +27,7 @@ jobs:
         run: pip install pyinstaller
 
       - name: Build with PyInstaller
-        run: pyinstaller --onefile --name tool-${{ matrix.os }} src/cli_tool/main.py
+        run: pyinstaller --onefile --name tool-${{ matrix.os }} src/gct/main.py
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
