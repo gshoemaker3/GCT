@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/psf/black
+    rev: 26.1.0
+    hooks:
+      - id: black
+        language_version: python3.13
+
+  # Run Bandit SAST locally
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.4
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml"]
+
+  # Run Secret Scanning locally
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.93.6
+    hooks:
+      - id: trufflehog
+        name: trufflehog
+        entry: trufflehog filesystem --directory=. --only-verified --no-update --fail --debug
+        args: []
