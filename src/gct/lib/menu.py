@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+
 def display(options: list[str]) -> None:
     """
     This function is used to display all options stored
     in 'options' to the user to select from.
-    
+
     Args:
         - options: A list of strings that will be displayed to the user.
     """

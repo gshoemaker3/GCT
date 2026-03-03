@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      
+
       - name: Run Scan
         uses: trufflesecurity/trufflehog@main
         with:
@@ -35,18 +35,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      
+
       - name: Python setup
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-      
+
       - name: Install bandit
         run: pip install bandit
-      
+
       - name: Run SAST Scan
         run: bandit -c pyproject.toml -r .
-  
+
   dependency-scan:
     name: Dependency Scan
     runs-on: ubuntu-latest
@@ -54,15 +54,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      
+
       - name: Python setup
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-      
+
       - name: install safety
         run: pip install safety
-      
+
       - name: Run Scan
         run: safety check
 
@@ -85,7 +85,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      
+
       - name: Python setup
         uses: actions/setup-python@v6
         with:
@@ -93,6 +93,6 @@ jobs:
 
       - name: Install dependencies
         run: python -m pip install pytest .
-      
+
       - name: Run Unit tests
         run: pytest

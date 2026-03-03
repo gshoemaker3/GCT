@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cli_tool"
+name = "gct"
 version = "0.1.0"
 description = "A cli tool for ShieldAI"
 readme = "README.md"
@@ -26,6 +26,8 @@ tool = "cli_tool.main:main"
 [dependency-groups]
 dev = [
     "bandit>=1.7.10",
+    "black>=24.8.0",
+    "pre-commit>=3.5.0",
     "pytest>=8.3.5",
     "safety>=3.6.2",
 ]
@@ -38,4 +40,3 @@ addopts = "-ra -q"
 [tool.bandit]
 targets = ["src"]
 exclude_dirs = ["tests"]
-
