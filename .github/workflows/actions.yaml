@@ -2,10 +2,38 @@ name: actions
 
 on:
   push:
-  pull_request:
 
+concurrency:
+  group: ${{ github.workflow}}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  run-tests:
+  security-scan:
+    name: Security Scans
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      
+      - name: Secret Scans
+        uses: trufflesecurity/trufflehog@main
+        with:
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
+
+      # - name: SAST Scan
+      #   run: |
+      #     pip install bandit
+      #     bandit -r . -f custom
+
+      # - name: Dependency Scan
+      #   run: |
+      #     pip install safety
+      #     safety check
+
+  unit-tests:
+    needs: security-scan
     strategy:
       fail-fast: false
       matrix:
