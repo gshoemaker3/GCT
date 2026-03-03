@@ -42,7 +42,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install bandit
-        run: install -e ".[dev]"
+        run: pip install -e ".[dev]"
 
       - name: Run SAST Scan
         run: bandit -c pyproject.toml -r .
@@ -61,7 +61,7 @@ jobs:
           python-version: "3.13"
 
       - name: install safety
-        run: install -e ".[dev]"
+        run: pip install -e ".[dev]"
 
       - name: Run Scan
         run: safety check
@@ -80,7 +80,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install black
-        run: install -e ".[dev]"
+        run: pip install -e ".[dev]"
 
       - name: Run Linter
         run: black --check --diff .
@@ -111,7 +111,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install Pytest
-        run: install -e ".[dev]"
+        run: pip install -e ".[dev]"
 
       - name: Run Unit tests
         run: pytest
