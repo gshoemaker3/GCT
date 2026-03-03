@@ -2,6 +2,7 @@ name: Build Executables
 
 on:
   push:
+  workflow_call:
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -12,7 +13,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # matrix builds for all three major OS types
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -25,12 +25,9 @@ jobs:
           python-version: '3.13'
 
       - name: Install dependencies
-        # Uses your existing dev dependencies to get PyInstaller
         run: pip install -e ".[dev]"
 
       - name: Build with PyInstaller
-        # --onefile: creates a single executable
-        # --name: names the output file
         run: pyinstaller --onefile --name tool-${{ matrix.os }} src/cli_tool/main.py
 
       - name: Upload Artifact
