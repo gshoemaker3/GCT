@@ -24,7 +24,7 @@ jobs:
           python-version: '3.13'
 
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: pip install pyinstaller"
 
       - name: Build with PyInstaller
         run: pyinstaller --onefile --name tool-${{ matrix.os }} src/cli_tool/main.py
