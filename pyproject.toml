@@ -16,7 +16,9 @@ authors = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.5",
-    "black"
+    "black",
+    "bandit",
+    "safety"
 ]
 [project.scripts]
 tool = "cli_tool.main:main"
@@ -32,3 +34,7 @@ dev = [
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra -q"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
