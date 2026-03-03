@@ -111,7 +111,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install Pytest
-        rrun: install -e ".[dev]"
+        run: install -e ".[dev]"
 
       - name: Run Unit tests
         run: pytest
