@@ -1,3 +1,4 @@
+from __future__ import annotations
 import time
 import sys
 import os
@@ -118,8 +119,9 @@ def handle_file_input(file_type: str) -> Path:
 
         if not raw_input:
             if file_type == "dst":
+                default = Path.cwd() / "files"
                 print(f"{WARNING}: Since a destination file path was not provided, the default path: "
-                      f"{Path.cwd() / "files"} will be used instead.]")
+                      f"{default} will be used instead.]")
                 raw_input = Path.cwd() / "files"
             else:
                 print(f"{ERROR}: A source path was not provided. Please try again")

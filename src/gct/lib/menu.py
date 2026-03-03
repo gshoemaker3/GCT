@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 def display(options: list[str]) -> None:
     """
     This function is used to display all options stored
