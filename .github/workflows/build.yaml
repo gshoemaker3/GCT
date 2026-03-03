@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    needs: [Unit_Tests]
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
