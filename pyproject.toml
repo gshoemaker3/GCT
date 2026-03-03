@@ -36,5 +36,6 @@ pythonpath = ["src"]
 addopts = "-ra -q"
 
 [tool.bandit]
+targets = ["src"]
 exclude_dirs = ["tests"]
 
