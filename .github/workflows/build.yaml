@@ -57,6 +57,9 @@ jobs:
           name: gct
           path: dist/
 
+      - name: List dist contents  # add this temporarily
+        run: ls -la dist/
+
       - name: Make executable
         run: chmod +x dist/gct
 
