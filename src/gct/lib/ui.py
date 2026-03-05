@@ -96,13 +96,20 @@ def get_file_input(file_type: str) -> Path:
     Return:
         - A validated file path as a Path object.
     """
+
+    full_type: str = "source" if file_type == "src" else "destination"
     try:
         if file_type.lower() != "src" and file_type.lower() != "dst":
             raise TypeError(
                 f"The provide value ({file_type}) for input arguemnt 'type' is invalid."
                 " Valid values for input agrument 'type' are: 'src' or 'dst' "
             )
-        return handle_file_input(file_type)
+        while True:
+            print(f"Please input the {full_type} file path.")
+            raw_input = input(f"{full_type.upper()}: ")
+            handled_input = handle_file_input(file_type, raw_input)
+            if handled_input is not None:
+                return handled_input
     except TypeError as e:
         print(e)
         print("Fix error and re-run tool. Exiting tool now...")
@@ -110,7 +117,7 @@ def get_file_input(file_type: str) -> Path:
         sys.exit()
 
 
-def handle_file_input(file_type: str) -> Path:
+def handle_file_input(file_type: str, raw_input: str) -> Path:
     """This function validates that the user provided path.
     The existance of the path is dependant on the file type. This
     is handled later.
@@ -119,35 +126,28 @@ def handle_file_input(file_type: str) -> Path:
         - file_type: This is the filepath type. There are two accetable types:
 
     Return:
-        - A Path object containing the validated file path.
+        - A Path object containing the validated file path or None if there is an issue.
     """
-    full_type: str = "source" if file_type == "src" else "destination"
-
-    while True:
-        # Retrieving user input.
-        print(f"Please input the {full_type} file path.")
-        raw_input = input(f"{full_type.upper()}: ")
-
-        if not raw_input:
-            if file_type == "dst":
-                default = Path.cwd() / "files"
-                print(
-                    f"{WARNING}: Since a destination file path was not provided, the default path: "
-                    f"{default} will be used instead.]"
-                )
-                raw_input = Path.cwd() / "files"
-            else:
-                print(f"{ERROR}: A source path was not provided. Please try again")
-                continue
+    if not raw_input:
+        if file_type == "dst":
+            default = Path.cwd() / "files"
+            print(
+                f"{WARNING}: Since a destination file path was not provided, the default path: "
+                f"{default} will be used instead.]"
+            )
+            raw_input = Path.cwd() / "files"
         else:
-            raw_input = Path(raw_input)
+            print(f"{ERROR}: A source path was not provided. Please try again")
+            return None
+    else:
+        raw_input = Path(raw_input)
 
-        # Validating user input.
-        if file_type == "src":
-            if files.handle_src_file(raw_input):
-                print(GREEN + "Source file found" + END)
-                return raw_input
-            continue
-        if files.handle_dst_file(raw_input):
+    # Validating user input.
+    if file_type == "src":
+        if files.handle_src_file(raw_input):
+            print(GREEN + "Source file found" + END)
             return raw_input
-        continue
+        return None
+    if files.handle_dst_file(raw_input):
+        return raw_input
+    return None

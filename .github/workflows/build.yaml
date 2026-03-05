@@ -1,18 +1,24 @@
 name: Build Executables
 
 on:
-  push:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
   workflow_call:
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    # name: Build on ${{ matrix.os }}
+    # runs-on: ${{ matrix.os }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build Artifacts
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -33,5 +39,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gct-${{ matrix.os }}
+          name: gct
           path: dist/
