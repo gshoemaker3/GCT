@@ -58,7 +58,7 @@ jobs:
           path: dist/
 
       - name: Make executable
-        run: chmod +x dist/tool
+        run: chmod +x dist/gct
 
       - name: Set up Python
         uses: actions/setup-python@v5
