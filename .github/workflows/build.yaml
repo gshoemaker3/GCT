@@ -41,3 +41,32 @@ jobs:
         with:
           name: gct
           path: dist/
+
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: build  # waits for build job to complete successfully
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gct
+          path: dist/
+
+      - name: Make executable
+        run: chmod +x dist/tool
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install test dependencies
+        run: pip install pytest
+
+      - name: Run integration tests
+        run: pytest tests/integration/ -v
