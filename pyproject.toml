@@ -35,7 +35,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests/unit_tests", "tests/integration"]
 pythonpath = ["src"]
 addopts = "-ra -q"
 
