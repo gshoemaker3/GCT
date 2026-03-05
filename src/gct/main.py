@@ -1,10 +1,12 @@
-from lib import display
-from lib import files
+from gct.lib import display
+from gct.lib import files
+from gct.lib import cli_parser
 
 
 def main():
     print("Hello World")
-    files.copy_file()
+    cli_parser.run()
+    # files.copy_file(True)
 
 
 main()

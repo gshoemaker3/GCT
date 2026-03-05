@@ -26,14 +26,20 @@ def copy_files_usage() -> None:
     print("================USAGE====================\n\n")
 
 
-def copy_file() -> None:
+def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
     """
     this function takes a two file paths in and
     copies the file stored in "source"
     """
+
     copy_files_usage()
-    src_path = ui.get_file_input("src")
-    dst_path = ui.get_file_input("dst")
+    if is_interactive:
+        src_path = ui.get_file_input("src")
+        dst_path = ui.get_file_input("dst")
+    else:
+        src_path = ui.handle_file_input("src", src)
+        dst_path = ui.handle_file_input("dst", dst)
+
     if check_overwrite_file(dst_path / src_path.name):
         exe_file_copy(src_path, dst_path)
     else:
