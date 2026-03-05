@@ -116,6 +116,6 @@ jobs:
       - name: Run Unit tests
         run: pytest
 
-  call-build:
-    needs: [unit-tests]
-    uses: ./.github/workflows/build.yaml
+  # call-build:
+  #   needs: [unit-tests]
+  #   uses: ./.github/workflows/build.yaml
