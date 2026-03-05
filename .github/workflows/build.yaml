@@ -59,6 +59,10 @@ jobs:
 
       - name: List dist contents  # add this temporarily
         run: ls -la dist/
+      - name: List dist contents  # add this temporarily
+        run: ls -la dist/tools-
+      - name: List dist contents 2 # add this temporarily
+        run: ls -la
 
       - name: Make executable
         run: chmod +x dist/gct
