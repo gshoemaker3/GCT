@@ -59,16 +59,12 @@ jobs:
 
       - name: List dist contents  # add this temporarily
         run: ls -la dist/
-      - name: List dist contents  # add this temporarily
-        run: ls -la dist/tools-
-      - name: List dist contents 2 # add this temporarily
-        run: ls -la
 
       - name: Make executable
         run: chmod +x dist/gct
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
 
