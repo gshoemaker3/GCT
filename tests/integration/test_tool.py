@@ -39,4 +39,4 @@ def test_tool_expected_output(txt_file, dst_path):
         text=True,
     )
     exp_out = f"{SUCCESS}: File {txt_file.name} was successfully copied to {dst_path}"
-    assert "expected output" in result.stdout.strip()
+    assert exp_out in result.stdout.strip()
