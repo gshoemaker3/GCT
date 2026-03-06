@@ -1,8 +1,16 @@
-# tests/integration/test_tool.py
 import subprocess
 import pytest
 
+from gct.lib.utils import SUCCESS
+
 TOOL_PATH = "dist/gct"
+
+
+@pytest.fixture
+def dir_path(tmp_path):
+    src_path = tmp_path / "source"
+    src_path.mkdir()
+    return src_path
 
 
 @pytest.fixture
@@ -30,4 +38,5 @@ def test_tool_expected_output(txt_file, dst_path):
         capture_output=True,
         text=True,
     )
-    assert "expected output" in result.stdout
+    exp_out = f"{SUCCESS}: File {txt_file.name} was successfully copied to {dst_path}"
+    assert exp_out in result.stdout.strip()
