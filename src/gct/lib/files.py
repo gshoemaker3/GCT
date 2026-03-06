@@ -30,6 +30,11 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
     """
     this function takes a two file paths in and
     copies the file stored in "source"
+
+    Args:
+        - is_interactive: This true if the tool is in interactive mode and false otherwise.
+        - src: this is the source file path if provided from the command line.
+        - dst: this is the destination for the copied file if provided from the command line.
     """
 
     copy_files_usage()
@@ -44,6 +49,35 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
         exe_file_copy(src_path, dst_path)
     else:
         print(f"{WARNING}: The file copy was canceled.")
+
+
+def create_file(is_interactive: bool, file_name: str = None, dst: str = None) -> None:
+    """
+    this function creates a file based on the filename provided by the user. destination
+    path is optional.
+
+    Args:
+        - is_interactive: This true if the tool is in interactive mode and false otherwise.
+        - file_name: The name of the file to be created if provided from the command line.
+        - dst: this is the destination for the new file if provided from the command line.
+    """
+    if is_interactive:
+        file = ui.get_file_input("name")
+        dst_path = ui.get_file_input("dst")
+    else:
+        file = ui.handle_file_input("name", file_name)
+        dst_path = ui.handle_file_input("dst", dst)
+
+    # create file.
+    new_file = dst_path / file
+    new_file.parent.mkdir(parents=True, exist_ok=True)
+    new_file.touch()
+
+    # validate creation
+    if new_file.exists():
+        print(f"{SUCCESS}: file: {file.name} was created at: {dst_path}.")
+    else:
+        print(f"{ERROR}: The file creation was unsuccessful")
 
 
 def check_overwrite_file(file: Path) -> bool:
