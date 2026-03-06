@@ -86,7 +86,7 @@ jobs:
           path: ./release-assets
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v6
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             release-assets/gct-windows-latest/*.exe
