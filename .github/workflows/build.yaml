@@ -91,7 +91,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ./release-assets/gct
+          files: ./release-assets/gct/gct
           tag_name: v0.0.${{ github.run_number }}
           generate_release_notes: true
           draft: false
