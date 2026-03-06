@@ -210,7 +210,7 @@ def handle_args(args: argparse.Namespace) -> None:
         files.copy_file(args.interactive, args.src, args.dest)
 
     elif args.command in ("mkfile", "mkf"):
-        print(f"[mkfile] creating {args.name!r} in {args.dir!r}")
+        # print(f"[mkfile] creating {args.name!r} in {args.dir!r}")
         files.create_file(args.interactive, args.name, args.dir)
 
     elif args.command in ("merge", "combine"):

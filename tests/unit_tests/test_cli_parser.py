@@ -11,6 +11,7 @@ Run with:
 import argparse
 import sys
 from unittest.mock import patch, call
+from gct.lib.utils import SUCCESS
 
 import pytest
 
@@ -369,33 +370,41 @@ class TestHandleArgs:
     #     captured = capsys.readouterr()
     #     assert "[copy]" in captured.out
 
-    def test_handle_args_8_mkfile_prints_correct_output(self, capsys):
+    def test_handle_args_8_mkfile_prints_correct_output(self, capsys, monkeypatch):
         """mkfile command prints filename and resolved directory."""
         args = argparse.Namespace(
-            interactive=False, command="mkfile", name="report.csv", dir="/output/"
+            interactive=False, command="mkfile", name="report.csv", dir="output/"
         )
+        monkeypatch.setattr("builtins.input", lambda _: "yes")
         handle_args(args)
         captured = capsys.readouterr()
-        assert "report.csv" in captured.out
-        assert "/output/" in captured.out
+        exp_out = f"{SUCCESS}: file: report.csv was created at: output."
+        assert exp_out == captured.out.strip()
 
-    def test_handle_args_9_mkfile_dir_none_resolved_to_default(self, capsys):
+    def test_handle_args_9_mkfile_dir_none_resolved_to_default(
+        self, capsys, monkeypatch
+    ):
         """mkfile with dir=None resolves to DEFAULT_CREATE_DIR before printing."""
         args = argparse.Namespace(
             interactive=False, command="mkfile", name="report.csv", dir=None
         )
+        monkeypatch.setattr("builtins.input", lambda _: "yes")
         handle_args(args)
         captured = capsys.readouterr()
         assert str(DEFAULT_CREATE_DIR) in captured.out
 
-    def test_handle_args_10_mkfile_alias_mkf_prints_correct_output(self, capsys):
+    def test_handle_args_10_mkfile_alias_mkf_prints_correct_output(
+        self, capsys, monkeypatch
+    ):
         """mkf alias routes to the mkfile handler."""
         args = argparse.Namespace(
-            interactive=False, command="mkf", name="config.json", dir="/output/"
+            interactive=False, command="mkf", name="config.json", dir="output/"
         )
+        monkeypatch.setattr("builtins.input", lambda _: "yes")
         handle_args(args)
         captured = capsys.readouterr()
-        assert "[mkfile]" in captured.out
+        exp_out = f"{SUCCESS}: file: config.json was created at: output."
+        assert exp_out in captured.out.strip()
 
     def test_handle_args_11_merge_prints_correct_output(self, capsys):
         """merge command prints both source files, output name, and directory."""
