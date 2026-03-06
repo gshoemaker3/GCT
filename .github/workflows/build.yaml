@@ -86,12 +86,14 @@ jobs:
           path: ./release-assets
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v6
         with:
           files: |
             release-assets/gct-windows-latest/*.exe
             release-assets/gct-ubuntu-latest/*
             release-assets/gct-macos-latest/*
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           generate_release_notes: true
           draft: false
           prerelease: false
