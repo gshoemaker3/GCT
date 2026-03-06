@@ -88,25 +88,26 @@ def get_file_input(file_type: str) -> Path:
     """This function retrieves file path related input from the user.
 
     Args:
-        - file_type: This is the filepath type. There are two accetable types:
+        - file_type: This is the filepath type. There are 3 accetable types:
             - src: which means the file should already exist and will be checked
                 for that
             - dst: which means this location may not exists and will be created
                 if it doesn't exist.
+            - name: which means this should just be a file name.
     Return:
         - A validated file path as a Path object.
     """
+    valid_types = ["src", "dst", "name"]
 
-    full_type: str = "source" if file_type == "src" else "destination"
     try:
-        if file_type.lower() != "src" and file_type.lower() != "dst":
+        if file_type.lower() not in valid_types:
             raise TypeError(
                 f"The provide value ({file_type}) for input arguemnt 'type' is invalid."
-                " Valid values for input agrument 'type' are: 'src' or 'dst' "
+                " Valid values for input agrument 'type' are: 'src', 'dst', or 'name' "
             )
         while True:
-            print(f"Please input the {full_type} file path.")
-            raw_input = input(f"{full_type.upper()}: ")
+            print(f"Please input the {file_type} of file.")
+            raw_input = input(f"{file_type.upper()}: ")
             handled_input = handle_file_input(file_type, raw_input)
             if handled_input is not None:
                 return handled_input
@@ -148,6 +149,10 @@ def handle_file_input(file_type: str, raw_input: str) -> Path:
             print(GREEN + "Source file found" + END)
             return raw_input
         return None
-    if files.handle_dst_file(raw_input):
+    elif file_type == "name":
         return raw_input
-    return None
+    else:
+        if files.handle_dst_file(raw_input):
+            return raw_input
+        else:
+            return None

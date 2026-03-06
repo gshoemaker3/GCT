@@ -46,6 +46,26 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
         print(f"{WARNING}: The file copy was canceled.")
 
 
+def create_file(is_interactive: bool, file_name: str = None, dst: str = None) -> None:
+    if is_interactive:
+        file = ui.get_file_input("name")
+        dst_path = ui.get_file_input("dst")
+    else:
+        file = ui.handle_file_input("name", file_name)
+        dst_path = ui.handle_file_input("dst", dst)
+
+    # create file.
+    new_file = dst_path / file
+    new_file.parent.mkdir(parents=True, exist_ok=True)
+    new_file.touch()
+
+    # validate creation
+    if new_file.exists():
+        print(f"{SUCCESS}: file: {file.name} was created at: {dst_path}.")
+    else:
+        print(f"{ERROR}: The file creation was unsuccessful")
+
+
 def check_overwrite_file(file: Path) -> bool:
     """
     This function asks the user if they want to overwrite a file
