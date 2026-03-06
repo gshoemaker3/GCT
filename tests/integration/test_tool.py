@@ -1,8 +1,14 @@
-# tests/integration/test_tool.py
 import subprocess
 import pytest
 
 TOOL_PATH = "dist/gct"
+
+
+@pytest.fixture
+def dir_path(tmp_path):
+    src_path = tmp_path / "source"
+    src_path.mkdir()
+    return src_path
 
 
 @pytest.fixture
