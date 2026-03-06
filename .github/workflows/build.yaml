@@ -57,9 +57,6 @@ jobs:
           name: gct
           path: dist/
 
-      - name: List dist contents  # add this temporarily
-        run: ls -la dist/
-
       - name: Make executable
         run: chmod +x dist/gct
 
@@ -85,6 +82,12 @@ jobs:
         with:
           path: ./release-assets
 
+      - name: List dist contents  # add this temporarily
+        run: ls -la
+
+      - name: List dist contents  # add this temporarily
+        run: ls -la
+  
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
