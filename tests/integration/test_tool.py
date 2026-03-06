@@ -1,6 +1,8 @@
 import subprocess
 import pytest
 
+from gct.lib.utils import SUCCESS
+
 TOOL_PATH = "dist/gct"
 
 
@@ -36,4 +38,5 @@ def test_tool_expected_output(txt_file, dst_path):
         capture_output=True,
         text=True,
     )
-    assert "expected output" in result.stdout
+    exp_out = f"{SUCCESS}: File {txt_file.name} was successfully copied to {dst_path}"
+    assert "expected output" in result.stdout.strip()
