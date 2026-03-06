@@ -30,6 +30,11 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
     """
     this function takes a two file paths in and
     copies the file stored in "source"
+
+    Args:
+        - is_interactive: This true if the tool is in interactive mode and false otherwise.
+        - src: this is the source file path if provided from the command line.
+        - dst: this is the destination for the copied file if provided from the command line.
     """
 
     copy_files_usage()
@@ -47,6 +52,15 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
 
 
 def create_file(is_interactive: bool, file_name: str = None, dst: str = None) -> None:
+    """
+    this function creates a file based on the filename provided by the user. destination
+    path is optional.
+
+    Args:
+        - is_interactive: This true if the tool is in interactive mode and false otherwise.
+        - file_name: The name of the file to be created if provided from the command line.
+        - dst: this is the destination for the new file if provided from the command line.
+    """
     if is_interactive:
         file = ui.get_file_input("name")
         dst_path = ui.get_file_input("dst")
