@@ -127,7 +127,7 @@ def compare_file_exts(file_1: Path, file_2: Path) -> bool:
     else:
         print(
             f"{ERROR}: One of the files provided is not of the accepted file types. "
-            f"These are the accepted file types: {",".join(valid_exts)}"
+            f"These are the accepted file types: {','.join(valid_exts)}"
         )
         return False
 
