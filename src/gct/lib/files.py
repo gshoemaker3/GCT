@@ -6,6 +6,8 @@ from pathlib import Path
 from gct.lib import ui
 from gct.lib.utils import ERROR, WARNING, SUCCESS
 
+VALID_EXTS = [".txt"]
+
 
 def copy_files_usage() -> None:
     print("\n\n==============FILE COPY==================")
@@ -78,6 +80,96 @@ def create_file(is_interactive: bool, file_name: str = None, dst: str = None) ->
         print(f"{SUCCESS}: file: {file.name} was created at: {dst_path}.")
     else:
         print(f"{ERROR}: The file creation was unsuccessful")
+
+
+def merge_files(is_interactive: bool, src1: str = None, src2: str = None) -> None:
+    """This function takes in two files and merges them into one
+
+    Args:
+        - is_interactive: This determines what mode the tool is in.
+        - src1: This is one of the files to be combine with another.
+        - src2: This is the other file that will be combined with another.
+    """
+    if is_interactive:
+        while True:
+            file_1: Path = ui.get_file_input("src")
+            file_2: Path = ui.get_file_input("src")
+            if compare_file_exts(file_1, file_2):
+                break
+    else:
+        file_1: Path = ui.handle_file_input("src", src1)
+        file_2: Path = ui.handle_file_input("src", src2)
+        if not compare_file_exts(file_1, file_2):
+            return
+    dst_path: Path = ui.handle_file_input("dst", None)
+
+    merged_file: Path = dst_path / f"{file_1.stem}_{file_2.name}"
+    data: list = file_1.read_text().splitlines() + file_2.read_text().splitlines()
+    if w_to_file(merged_file, data):
+        print(
+            f"{SUCCESS}: The files were merged. The merged file is located here: {str(merged_file)}"
+        )
+    else:
+        print(f"{ERROR}: The files could not be merged successfully.")
+
+
+def compare_file_exts(file_1: Path, file_2: Path) -> bool:
+    valid_exts = [".txt", ".csv"]
+    if check_file_ext(file_1, valid_exts) and check_file_ext(file_2, valid_exts):
+        if file_1.suffix == file_2.suffix:
+            print(f"{SUCCESS}: Both files to be combined are valid and the same")
+            return True
+        else:
+            print(
+                f"{ERROR}: The files provided are not of the same file type. Please try again"
+            )
+            return False
+    else:
+        print(
+            f"{ERROR}: One of the files provided is not of the accepted file types. "
+            f"These are the accepted file types: {",".join(valid_exts)}"
+        )
+        return False
+
+
+def w_to_file(file: Path, data: list[str]) -> bool:
+    """This function writes data to a file.
+
+    Args:
+        - file: This is the file that will be written to.
+        - data: This is the data that will be written to the file.
+
+    Returns:
+        - return True if the file was successfully written to and false otherwise.
+    """
+    try:
+        if not file.exists():
+            file.touch()
+
+        with file.open(mode="w", encoding="utf-8") as f:
+            for line in data:
+                f.write(line + "\n")
+        return True
+    except Exception as e:
+        print(f"{ERROR}: Encountered the following error: {e}")
+        return False
+
+
+def check_file_ext(file: Path, valid_exts: list[str]) -> bool:
+    """This function checks whether the file has an accepted file type.
+    All accepted file types are defined in 'valid_exts.
+
+    Args:
+        - file: The file that is having its file extension validated.
+        - valid_exts: All acceptable file types.
+
+    Returns:
+        - True if the file has a valid file extension and False otherwise.
+    """
+    ext = file.suffix
+    if ext in valid_exts:
+        return True
+    return False
 
 
 def check_overwrite_file(file: Path) -> bool:
