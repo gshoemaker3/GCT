@@ -26,6 +26,42 @@ from gct.lib.cli_parser import (
     DEFAULT_MERGE_DEST,
 )
 
+
+@pytest.fixture
+def dir_path(tmp_path):
+    src_path = tmp_path / "source"
+    src_path.mkdir()
+    return src_path
+
+
+@pytest.fixture
+def fake_path(tmp_path):
+    fake_path = tmp_path / "not_created"
+    return fake_path
+
+
+@pytest.fixture
+def txt_file_1(dir_path):
+    f_path = dir_path / "test_1.txt"
+    f_path.write_text(
+        "This is a test text file.\n"
+        "This is the second sentence.\n"
+        "This is the third sencentce.\n"
+    )
+    return f_path
+
+
+@pytest.fixture
+def txt_file_2(dir_path):
+    f_path = dir_path / "test_1.txt"
+    f_path.write_text(
+        "This is a test text file 2.\n"
+        "Hello World.\n"
+        "This should work or I will be sad\n"
+    )
+    return f_path
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # build_parser()
 # ──────────────────────────────────────────────────────────────────────────────
@@ -153,60 +189,45 @@ class TestBuildParser:
         """merge exits with error when -a/--file-a is missing."""
         parser = build_parser()
         with pytest.raises(SystemExit):
-            parser.parse_args(["merge", "-b", "b.txt", "-n", "out.txt"])
+            parser.parse_args(["merge", "-f2", "b.txt"])
 
     def test_build_parser_21_merge_file_b_required(self):
         """merge exits with error when -b/--file-b is missing."""
         parser = build_parser()
         with pytest.raises(SystemExit):
-            parser.parse_args(["merge", "-a", "a.txt", "-n", "out.txt"])
-
-    def test_build_parser_22_merge_name_required(self):
-        """merge exits with error when -n/--name is missing."""
-        parser = build_parser()
-        with pytest.raises(SystemExit):
-            parser.parse_args(["merge", "-a", "a.txt", "-b", "b.txt"])
+            parser.parse_args(["merge", "-f1", "a.txt"])
 
     def test_build_parser_23_merge_all_required_flags_parsed(self):
         """merge stores file_a, file_b, and name correctly."""
         parser = build_parser()
-        args = parser.parse_args(
-            ["merge", "-a", "a.txt", "-b", "b.txt", "-n", "out.txt"]
-        )
-        assert args.file_a == "a.txt"
-        assert args.file_b == "b.txt"
-        assert args.name == "out.txt"
+        args = parser.parse_args(["merge", "-f1", "a.txt", "-f2", "b.txt"])
+        assert args.file_1 == "a.txt"
+        assert args.file_2 == "b.txt"
 
     def test_build_parser_24_merge_dest_dir_defaults_to_none(self):
         """merge -d omitted leaves dest_dir as None."""
         parser = build_parser()
-        args = parser.parse_args(
-            ["merge", "-a", "a.txt", "-b", "b.txt", "-n", "out.txt"]
-        )
+        args = parser.parse_args(["merge", "-f1", "a.txt", "-f2", "b.txt"])
         assert args.dest_dir is None
 
     def test_build_parser_25_merge_dest_dir_parsed(self):
         """merge -d stores the destination directory correctly."""
         parser = build_parser()
         args = parser.parse_args(
-            ["merge", "-a", "a.txt", "-b", "b.txt", "-n", "out.txt", "-d", "/out/"]
+            ["merge", "-f1", "a.txt", "-f2", "b.txt", "-d", "/out/"]
         )
         assert args.dest_dir == "/out/"
 
     def test_build_parser_26_merge_alias_combine(self):
         """'combine' alias parses identically to 'merge'."""
         parser = build_parser()
-        args = parser.parse_args(
-            ["combine", "-a", "a.txt", "-b", "b.txt", "-n", "out.txt"]
-        )
-        assert args.file_a == "a.txt"
+        args = parser.parse_args(["combine", "-f1", "a.txt", "-f2", "b.txt"])
+        assert args.file_1 == "a.txt"
 
     def test_build_parser_27_merge_command_name(self):
         """args.command is 'merge' when using the merge subcommand."""
         parser = build_parser()
-        args = parser.parse_args(
-            ["merge", "-a", "a.txt", "-b", "b.txt", "-n", "out.txt"]
-        )
+        args = parser.parse_args(["merge", "-f1", "a.txt", "-f2", "b.txt"])
         assert args.command == "merge"
 
 
@@ -406,50 +427,36 @@ class TestHandleArgs:
         exp_out = f"{SUCCESS}: file: config.json was created at: output."
         assert exp_out in captured.out.strip()
 
-    def test_handle_args_11_merge_prints_correct_output(self, capsys):
-        """merge command prints both source files, output name, and directory."""
-        args = argparse.Namespace(
-            interactive=False,
-            command="merge",
-            file_a="a.txt",
-            file_b="b.txt",
-            name="out.txt",
-            dest_dir="/out/",
-        )
-        handle_args(args)
-        captured = capsys.readouterr()
-        assert "a.txt" in captured.out
-        assert "b.txt" in captured.out
-        assert "out.txt" in captured.out
-        assert "/out/" in captured.out
-
-    def test_handle_args_12_merge_dest_dir_none_resolved_to_default(self, capsys):
+    def test_handle_args_12_merge_dest_dir_none_resolved_to_default(
+        self, capsys, txt_file_1, txt_file_2
+    ):
         """merge with dest_dir=None resolves to DEFAULT_MERGE_DEST before printing."""
         args = argparse.Namespace(
             interactive=False,
             command="merge",
-            file_a="a.txt",
-            file_b="b.txt",
-            name="out.txt",
+            file_1=txt_file_1,
+            file_2=txt_file_2,
             dest_dir=None,
         )
         handle_args(args)
         captured = capsys.readouterr()
         assert str(DEFAULT_MERGE_DEST) in captured.out
 
-    def test_handle_args_13_merge_alias_combine_prints_correct_output(self, capsys):
+    def test_handle_args_13_merge_alias_combine_prints_correct_output(
+        self, capsys, txt_file_1, txt_file_2
+    ):
         """combine alias routes to the merge handler."""
         args = argparse.Namespace(
             interactive=False,
             command="combine",
-            file_a="a.txt",
-            file_b="b.txt",
-            name="out.txt",
+            file_1=txt_file_1,
+            file_2=txt_file_2,
             dest_dir="/out/",
         )
         handle_args(args)
         captured = capsys.readouterr()
-        assert "[merge]" in captured.out
+        exp_out = f"{SUCCESS}: The files were merged. The merged file is located here:"
+        assert exp_out in captured.out.strip()
 
 
 # ──────────────────────────────────────────────────────────────────────────────

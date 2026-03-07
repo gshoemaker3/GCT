@@ -109,15 +109,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Merge two files into a single new file.",
     )
     merge_parser.add_argument(
-        "-a",
-        "--file-a",
+        "-f1",
+        "--file-1",
         required=True,
         metavar="FILE_A",
         help="Path to the first source file.",
     )
     merge_parser.add_argument(
-        "-b",
-        "--file-b",
+        "-f2",
+        "--file-2",
         required=True,
         metavar="FILE_B",
         help="Path to the second source file.",
@@ -125,7 +125,7 @@ def build_parser() -> argparse.ArgumentParser:
     merge_parser.add_argument(
         "-n",
         "--name",
-        required=True,
+        # required=True,
         metavar="OUTPUT_NAME",
         help="Name of the merged output file, including its extension.",
     )
@@ -210,15 +210,10 @@ def handle_args(args: argparse.Namespace) -> None:
         files.copy_file(args.interactive, args.src, args.dest)
 
     elif args.command in ("mkfile", "mkf"):
-        # print(f"[mkfile] creating {args.name!r} in {args.dir!r}")
         files.create_file(args.interactive, args.name, args.dir)
 
     elif args.command in ("merge", "combine"):
-        print(
-            f"[merge] {args.file_a!r} + {args.file_b!r}"
-            f"  →  {args.dest_dir!r}/{args.name!r}"
-        )
-        # TODO: call your merge logic here
+        files.merge_files(args.interactive, args.file_1, args.file_2)
 
 
 def main() -> None:
