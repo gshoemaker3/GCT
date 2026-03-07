@@ -455,7 +455,8 @@ class TestHandleArgs:
         )
         handle_args(args)
         captured = capsys.readouterr()
-        assert "[merge]" in captured.out
+        exp_out = f"{SUCCESS}: The files were merged. The merged file is located here:"
+        assert exp_out in captured.out.strip()
 
 
 # ──────────────────────────────────────────────────────────────────────────────
