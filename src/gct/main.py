@@ -1,12 +1,11 @@
-from gct.lib import display
-from gct.lib import files
 from gct.lib import cli_parser
+
+""" This is the main function fo the GCT tool"""
 
 
 def main():
-    print("Hello World")
     cli_parser.run()
-    # files.copy_file(True)
 
 
-main()
+if __name__ == "__main__":
+    main()

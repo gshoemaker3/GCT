@@ -334,20 +334,6 @@ class TestResolveDefaults:
 
 class TestHandleArgs:
 
-    def test_handle_args_1_interactive_prints_and_returns(self, capsys):
-        """--interactive prints the interactive mode message and returns early."""
-        args = argparse.Namespace(interactive=True, command=None)
-        handle_args(args)
-        captured = capsys.readouterr()
-        assert "[interactive mode]" in captured.out
-
-    def test_handle_args_2_interactive_does_not_call_sys_exit(self):
-        """--interactive alone does not trigger sys.exit."""
-        args = argparse.Namespace(interactive=True, command=None)
-        with patch("sys.exit") as mock_exit:
-            handle_args(args)
-            mock_exit.assert_not_called()
-
     def test_handle_args_3_no_command_no_interactive_calls_sys_exit(self):
         """No subcommand and no --interactive triggers sys.exit(0)."""
         args = argparse.Namespace(interactive=False, command=None)

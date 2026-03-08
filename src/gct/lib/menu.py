@@ -1,3 +1,8 @@
+"""
+The menu.py module contains the functions to create and display menus to the user
+when the tool is in interactive mode.
+"""
+
 from __future__ import annotations
 
 

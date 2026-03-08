@@ -1,3 +1,8 @@
+"""
+This module is used to contain common constants
+and functions across more than one module in the tool.
+"""
+
 # CONSTANTS:
 RED = "\033[31m"
 GREEN = "\033[32m"

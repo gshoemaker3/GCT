@@ -21,7 +21,7 @@ import sys
 import os
 from pathlib import Path
 
-from gct.lib import files
+from gct.lib import files, interactive
 
 DEFAULT_COPY_DEST = Path(os.getcwd()) / "files"  # Replace with your actual default
 DEFAULT_CREATE_DIR = Path(os.getcwd()) / "files"  # Replace with your actual default
@@ -195,7 +195,7 @@ def handle_args(args: argparse.Namespace) -> None:
     # Interactive mode can coexist with a subcommand, or stand alone.
     if args.interactive:
         print("[interactive mode]")
-        # TODO: launch your interactive REPL / TUI here
+        interactive.run()
         return
 
     if args.command is None:

@@ -1,3 +1,11 @@
+"""
+The ui.py module contains all functions that
+are used to interface with the user. This includes
+prompting the user and also handling and validating
+the input from the user to ensure the tool functions
+properly.
+"""
+
 from __future__ import annotations
 import time
 import sys
@@ -19,9 +27,10 @@ def get_menu_input(options: list[str]) -> int:
     Return:
         - The number that corresponds the option the user has selected.
     """
-    options.append("Exit")
-    menu.display(options)
-    user_input: int = handle_menu_input(len(options))
+    all_options = options + ["Exit"]
+    # options.append("Exit")
+    menu.display(all_options)
+    user_input: int = handle_menu_input(len(all_options))
     return user_input
 
 
@@ -106,7 +115,7 @@ def get_file_input(file_type: str) -> Path:
                 " Valid values for input agrument 'type' are: 'src', 'dst', or 'name' "
             )
         while True:
-            print(f"Please input the {file_type} of file.")
+            # print(f"Please input the {file_type} of file.")
             raw_input = input(f"{file_type.upper()}: ")
             handled_input = handle_file_input(file_type, raw_input)
             if handled_input is not None:

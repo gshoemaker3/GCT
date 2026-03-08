@@ -6,27 +6,6 @@ from pathlib import Path
 from gct.lib import ui
 from gct.lib.utils import ERROR, WARNING, SUCCESS
 
-VALID_EXTS = [".txt"]
-
-
-def copy_files_usage() -> None:
-    print("\n\n==============FILE COPY==================")
-    print("================USAGE====================")
-    print(
-        "Currently the copy file function has only been tested to support "
-        "local-to-local file copies.\n"
-        "It DOES NOT support:\n"
-        "  - copying files from remote locations to local locations\n"
-        "  - copying local files to remote locations\n"
-        "  - copying remote files to other remote locations."
-        "REQUIREMENTS: "
-        "  - A source path to a file must be provided.\n"
-        "  - A destination path is optional. If one is not provided, "
-        "a default destination path will be used instead\n"
-        "  - The destination path has to be to a directory/folder. it cannot be a file"
-    )
-    print("================USAGE====================\n\n")
-
 
 def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
     """
@@ -39,9 +18,11 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
         - dst: this is the destination for the copied file if provided from the command line.
     """
 
-    copy_files_usage()
     if is_interactive:
+        print("Please provide the source path for the file to be copied")
         src_path = ui.get_file_input("src")
+
+        print("Please provide the destination the file will be copied to.")
         dst_path = ui.get_file_input("dst")
     else:
         src_path = ui.handle_file_input("src", src)
@@ -82,7 +63,9 @@ def create_file(is_interactive: bool, file_name: str = None, dst: str = None) ->
         print(f"{ERROR}: The file creation was unsuccessful")
 
 
-def merge_files(is_interactive: bool, src1: str = None, src2: str = None) -> None:
+def merge_files(
+    is_interactive: bool, src1: str = None, src2: str = None, file_dst: str = None
+) -> None:
     """This function takes in two files and merges them into one
 
     Args:
@@ -92,16 +75,22 @@ def merge_files(is_interactive: bool, src1: str = None, src2: str = None) -> Non
     """
     if is_interactive:
         while True:
+            print("Please provide the source path for the first file to be merged.")
             file_1: Path = ui.get_file_input("src")
+
+            print("Please provide the source path for the second file to be merged.")
             file_2: Path = ui.get_file_input("src")
+
+            print("Please provide the destination to store the combined files.")
+            dst_path: Path = ui.get_file_input("dst")
             if compare_file_exts(file_1, file_2):
                 break
     else:
         file_1: Path = ui.handle_file_input("src", src1)
         file_2: Path = ui.handle_file_input("src", src2)
+        dst_path = ui.handle_file_input("dst", file_dst)
         if not compare_file_exts(file_1, file_2):
             return
-    dst_path: Path = ui.handle_file_input("dst", None)
 
     merged_file: Path = dst_path / f"{file_1.stem}_{file_2.name}"
     data: list = file_1.read_text().splitlines() + file_2.read_text().splitlines()
