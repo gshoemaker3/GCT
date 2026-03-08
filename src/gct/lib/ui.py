@@ -1,3 +1,11 @@
+"""
+The ui.py module contains all functions that
+are used to interface with the user. This includes
+prompting the user and also handling and validating
+the input from the user to ensure the tool functions
+properly.
+"""
+
 from __future__ import annotations
 import time
 import sys

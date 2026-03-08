@@ -1,7 +1,15 @@
+"""
+This module contains the main execution loop when the
+tool is in interactive mode as well as some of the basic
+usage of each tool that is displayed to the user once
+a function is selected from the menu.
+"""
+
 from gct.lib import files, ui
 
 
 def run():
+    """The main execution loop for interactive mode."""
     options = ["Copy File", "Combine Files", "Create File"]
     # title()
     while True:
@@ -20,6 +28,7 @@ def run():
 
 
 def title():
+    """This prints the title and usage of the tool"""
     print("\n=================================================================")
     print("             Garrett's CLI Tool (GCT) Interactive Menu.         ")
     print("=================================================================\n")
@@ -35,6 +44,7 @@ def title():
 
 
 def create_file_usage():
+    """This prints off the usage of the create file function"""
     print(
         "\n================================================================================"
     )
@@ -61,6 +71,7 @@ def create_file_usage():
 
 
 def copy_file_usage():
+    """This prints out the usage of the file copy function"""
     print(
         "\n============================================================================"
     )
@@ -92,6 +103,7 @@ def copy_file_usage():
 
 
 def merge_files_usage():
+    """This prints out the usage of the combine files function"""
     print(
         "\n============================================================================"
     )
