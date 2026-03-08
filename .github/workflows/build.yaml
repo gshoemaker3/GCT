@@ -94,7 +94,7 @@ jobs:
         with:
           path: ./release-assets
       - name: display content
-        run: ls -la
+        run: ls -la release-assets
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
