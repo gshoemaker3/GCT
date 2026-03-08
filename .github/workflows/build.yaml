@@ -50,6 +50,7 @@ jobs:
       - name: Upload API Docs'
         uses: actions/upload-pages-artifact@v4
         with:
+          name: gct-api
           path: docs/
 
   integration-test:
