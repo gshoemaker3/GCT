@@ -24,7 +24,6 @@ _Get your environment set up to pull branches, make changes, and commit while st
 
 ```bash
 git clone <repo-url>
-cd gct
 ```
 
 ---
