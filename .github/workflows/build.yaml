@@ -103,3 +103,18 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: false
+      
+  deploy-docs:
+    needs: [integration-test]
+    runs-on: ubuntu-latest
+    # Grant permissions required for GitHub Pages deployment
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
