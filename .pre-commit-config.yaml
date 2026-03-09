@@ -20,6 +20,13 @@ repos:
       - id: bandit
         args: ["-c", "pyproject.toml"]
 
+  # # Enforce Google-style docstrings
+  # - repo: https://github.com/jsh9/pydoclint
+  #   rev: 0.5.9
+  #   hooks:
+  #     - id: pydoclint
+  #       args: ["--style=google", "--exclude=tests"]
+
   # Run Secret Scanning locally
   - repo: https://github.com/trufflesecurity/trufflehog
     rev: v3.93.6
