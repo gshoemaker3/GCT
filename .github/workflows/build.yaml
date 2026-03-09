@@ -62,7 +62,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download built artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: gct
@@ -93,14 +93,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ./release-assets
-      - name: display content
-        run: ls -la release-assets/gct-api
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             ./release-assets/gct/gct
-            ./release-assets/gct/gct-api
           tag_name: v0.0.${{ github.run_number }}
           generate_release_notes: true
           draft: false
