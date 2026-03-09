@@ -19,7 +19,11 @@ dev = [
     "black",
     "bandit",
     "safety",
-    "pydoclint"
+    "pydoclint",
+    "pre-commit",
+    "pyinstaller",
+    "pytest-cov",
+    "pdoc"
 ]
 [project.scripts]
 tool = "cli_tool.main:main"
