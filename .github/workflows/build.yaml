@@ -1,25 +1,23 @@
 name: Build Executables
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-    types:
-      - closed
-  workflow_call:
   workflow_dispatch:
+
+# Prevents multiple runs of the same workflow from conflicting
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    # name: Build on ${{ matrix.os }}
-    # runs-on: ${{ matrix.os }}
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     os: [ubuntu-latest, windows-latest, macos-latest]
     name: Build Artifacts
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -47,7 +45,7 @@ jobs:
       - name: Generate API Docs
         run: pdoc --output-dir docs ./src/gct
 
-      - name: Upload API Docs'
+      - name: Upload API Docs
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs/
@@ -55,44 +53,38 @@ jobs:
   integration-test:
     name: Integration Tests
     runs-on: ubuntu-latest
-    needs: build  # waits for build job to complete successfully
-
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: gct
           path: dist/
-
       - name: Make executable
         run: chmod +x dist/gct
-
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-
       - name: Install test dependencies
         run: pip install pytest
-
       - name: Run integration tests
         run: pytest tests/integration/ -v
 
   publish-release:
     needs: [integration-test]
     runs-on: ubuntu-latest
+    # This ensures release only happens on push to main, not on PRs
+    if: github.event_name == 'push'
     permissions:
-      contents: write # Required to create a release
-
+      contents: write
     steps:
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
         with:
           path: ./release-assets
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -100,13 +92,12 @@ jobs:
             ./release-assets/gct/gct
           tag_name: v0.0.${{ github.run_number }}
           generate_release_notes: true
-          draft: false
-          prerelease: false
 
   deploy-docs:
     needs: [integration-test]
     runs-on: ubuntu-latest
-    # Grant permissions required for GitHub Pages deployment
+    # This ensures deployment only happens on push to main, not on PRs
+    if: github.event_name == 'push'
     permissions:
       pages: write
       id-token: write
