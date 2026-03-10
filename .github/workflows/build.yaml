@@ -102,7 +102,7 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: false
-      
+
   deploy-docs:
     needs: [integration-test]
     runs-on: ubuntu-latest
