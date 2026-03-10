@@ -84,6 +84,7 @@ def build_parser() -> argparse.ArgumentParser:
         aliases=["mkf"],
         help="Create a new file.",
     )
+    # additional comment for demo
     mkfile_parser.add_argument(
         "-n",
         "--name",
