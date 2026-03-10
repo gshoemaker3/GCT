@@ -18,10 +18,6 @@ def copy_file(is_interactive: bool, src: str = None, dst: str = None) -> None:
         - dst: this is the destination for the copied file if provided from the command line.
     """
 
-    print(
-        "4444.                                444444444777777777767676676767676676888888888888888888888888"
-    )
-
     if is_interactive:
         print("Please provide the source path for the file to be copied")
         src_path = ui.get_file_input("src")
